@@ -1,5 +1,5 @@
 # Project directories
-sources/*
+src/*
 target/*
 working/*
 host/*
