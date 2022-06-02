@@ -10,8 +10,8 @@ Binutils
 The binutils package contains, among other things, the assembler and linker
 needed to build and generate binaries for the target platform.
 
+First, we make a directory in the binutils source directory called `build`
 ```bash
-$ foo
 
 ```
 

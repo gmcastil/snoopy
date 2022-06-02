@@ -1,10 +1,16 @@
-# This should not be hard coded
+#!/usr/bin/false
+
+# This should not be a hard coded value
 SNOOPY=${HOME}/git-repos/snoopy
 
-SRC_DIR=${SNOOPY}/src
-TARGET_DIR=${SNOOPY}/target
-WORKING_DIR=${SNOOPY}/working
+# Probably the most important detail to get right
+TARGET=arm-linux-snoopy-gnueabihf
 
-export SNOOPY
+WORK=${SNOOPY}/work
+SOURCES=${SNOOPY}/sources
+
+# Locations needed for the cross compiler
+SYSROOT=${SNOOPY}/sysroot
+HOST=${SNOOPY}/host
 
 BINUTILS_VER=2.38
