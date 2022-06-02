@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# Returns a consistently formatted timestamp
-function timestamp () {
-  local retval
-  retval="$(date +%H%M%S-%d%m%Y)"
-  printf '%s' "${retval}"
-}
-
 function info_msg () {
   printf "INFO: %s\n" "$*" >&2
 }
@@ -17,6 +10,13 @@ function warn_msg () {
 
 function err_msg () {
   printf "ERROR: %s\n" "$*" >&2
+}
+
+# Returns a consistently formatted timestamp
+function timestamp () {
+  local retval
+  retval="$(date +%H%M%S-%d%m%Y)"
+  printf '%s' "${retval}"
 }
 
 # Backup an existing directory if it already exists
