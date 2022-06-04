@@ -1,8 +1,9 @@
 # Project directories
-src/*
-target/*
-working/*
+sources/*
+rootfs/*
+work/*
 host/*
+sysroot/*
 
 # Temp files
 .*.swp
