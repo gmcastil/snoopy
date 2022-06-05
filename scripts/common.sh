@@ -5,7 +5,7 @@
 
 BUILD=x86_64-pc-linux-gnu
 HOST=x86_64-pc-linux-gnu
-TARGET=arm-linux-snoopy-gnueabihf
+TARGET=arm-snoopy-linux-gnueabihf
 
 # This should not be a hard coded value
 SNOOPY="${HOME}"/git-repos/snoopy
