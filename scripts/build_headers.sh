@@ -39,28 +39,15 @@ function config_build () {
   # so we specify the ARCH manually
   make ARCH="${ARCH_TARGET}" mrproper
   make ARCH="${ARCH_TARGET}" headers
+  # The Linux From Scratch folks avoid this method for installing kernel headers
+  # because they don't want to introduce a dependence upon rsync to do it this
+  # way
   make \
     ARCH="${ARCH_TARGET}" \
     INSTALL_HDR_PATH="${SYSROOT}/usr/${TARGET}" \
     headers_install
 }
 
-function post_build () {
-  local linux_hdr_dir
-  linux_hdr_dir="${_linux_build}/usr/include"
-  if [[ -d "${linux_hdr_dir}" ]]; then
-    # Remove all of the .cmd and other hidden files
-    find "${linux_hdr_dir}" -name '.*' -delete
-    rm "${linux_hdr_dir}"/Makefile
-    mkdir -pv "${SYSROOT}/usr"
-    cp -rv "${linux_hdr_dir}" "${SYSROOT}/usr"
-  else
-    err_msg "Could not find Linux header directory at ${linux_hdr_dir}"
-    exit 1
-  fi
-}
-
 pre_build
 config_build
-# post_build
 
