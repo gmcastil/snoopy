@@ -4,6 +4,7 @@ rootfs/*
 work/*
 host/*
 sysroot/*
+toolchain/*
 
 # Temp files
 .*.swp
