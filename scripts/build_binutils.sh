@@ -38,16 +38,6 @@ function pre_build () {
   fi
 }
 
-# function post_build () {
-# }
-# 
-# function config_build () {
-# }
-#
-# function build () {
-# }
-# 
-
 function config_build () {
   # Final check to make sure that we are in the appropriate location before
   # firing off configure or make
