@@ -6,6 +6,8 @@
 BUILD=x86_64-pc-linux-gnu
 HOST=x86_64-pc-linux-gnu
 TARGET=arm-snoopy-linux-gnueabihf
+# Some things might not respect the GNU target triplet (e.g., the Linux kernel)
+ARCH_TARGET=arm
 
 # This should not be a hard coded value
 SNOOPY="${HOME}"/git-repos/snoopy
@@ -19,6 +21,7 @@ ROOTFS="${SNOOPY}"/rootfs
 SYSROOT="${SNOOPY}"/sysroot
 
 export SNOOPY
+export ARCH_TARGET
 export TARGET
 export BUILD
 export HOST
