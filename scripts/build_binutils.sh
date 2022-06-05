@@ -60,7 +60,7 @@ function config_build () {
     --enable-option-checking \
     --prefix="${TOOLCHAIN}" \
     --program-prefix="${TARGET}-" \
-    --with-sysroot=${SYSROOT} \
+    --with-sysroot="${SYSROOT}" \
     --enable-deterministic-archives \
     --enable-threads \
     --disable-gold \
@@ -76,8 +76,8 @@ function config_build () {
 
   local build_timestamp_log
   build_timestamp_log="build_$(timestamp).log"
-  make configure-host > ${build_timestamp_log} 2>&1
-  make tooldir=${TOOLCHAIN} >> ${build_timestamp_log} 2>&1
+  make configure-host > "${build_timestamp_log}" 2>&1
+  make tooldir="${TOOLCHAIN}" >> "${build_timestamp_log}" 2>&1
 }
 
 function post_build () {
