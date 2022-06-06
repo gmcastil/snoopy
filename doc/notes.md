@@ -11,3 +11,12 @@ files, and a kernel image
 
 None of these are included in the repository for obvious reasons and they should
 all be created by a script or some sort of make target
+
+Getting Sources
+---------------
+
+Some possibly useful `wget` commands are
+
+`wget --input-file=sources.lst --directory-prefix=./sources --progress=bar`
+
+To obtain the sources via wget and drop them into a sources directory
