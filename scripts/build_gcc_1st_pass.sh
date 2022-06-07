@@ -40,17 +40,14 @@ function pre_build () {
     # Nothing to back up, since we just unpacked the GCC tarball and are
     # unzipping these into it's directory
     info_msg "Unpacking source file at ${mpfr_src}"
-    tar -xf "${mpfr_src}" \
-      -C "${_gcc_work}/mpfr" \
-      || { err_msg "Could not unpack ${mpfr_src}"; exit 1; }
+    tar -xf "${mpfr_src}" -C "${WORK}"
+    ln -sv "${WORK}/mpfr-${_mpfr_version}" "${_gcc_work}/mpfr"
     info_msg "Unpacking source file at ${gmp_src}"
-    tar -xf "${gmp_src}" -C "${_gcc_work}/gmp" \
-      -C "${_gcc_work}/gmp" \
-      || { err_msg "Could not unpack ${gmp_src}"; exit 1; }
+    tar -xf "${gmp_src}" -C "${WORK}"
+    ln -sv "${WORK}/gmp-${_gmp_version}" "${_gcc_work}/gmp"
     info_msg "Unpacking source file at ${mpc_src}"
-    tar -xf "${mpc_src}" -C "${_gcc_work}/mpc" \
-      -C "${_gcc_work}/mpc" \
-      || { err_msg "Could not unpack ${mpc_src}"; exit 1; }
+    tar -xf "${mpc_src}" -C "${WORK}"
+    ln -sv "${WORK}/mpc-${_mpc_version}" "${_gcc_work}/mpc"
 
     # Now relocate to the build directory
     cd "${_gcc_work}" \
@@ -74,26 +71,51 @@ function config_build () {
     exit 1
   fi
 
-  "${_gcc_work}/configure" \
-    --target="${TARGET}" \
-    --prefix="${TOOLCHAIN}" \
-    --with-glibc-version=2.35 \
-    --with-sysroot="${SYSROOT}" \
-    --with-newlib \
-    --without-headers \
-    --enable-initfini-array \
-    --disable-nls \
-    --disable-shared \
-    --disable-multilib \
-    --disable-decimal-float \
-    --disable-threads \
-    --disable-libatomic \
-    --disable-libgomp \
-    --disable-libquadmath \
-    --disable-libssp \
-    --disable-libvtv \
-    --disable-libstdcxx \
-    --enable-languages=c,c++
+  CFLAGS=${CFLAGS/-pipe/}
+  CXXFLAGS=${CXXFLAGS/-pipe/}
+
+#  "${_gcc_work}/configure" \
+#      --program-prefix=${TARGET}- \
+#      --with-local-prefix=/usr/${_target} \
+#      --with-sysroot=${SYSROOT} \
+#      --with-build-sysroot=${SYSROOT} \
+#      --with-as=${TOOLCHAIN}/bin/${TARGET}-as \
+#      --with-ld=${TOOLCHAIN}/bin/${TARGET}-ld \
+#      --libdir=${SYSROOT}/usr/lib \
+#      --libexecdir=${SYSROOT}/usr/lib \
+#      --disable-nls \
+#      --with-newlib \
+#      --enable-languages=c,c++ \
+#      --with-isl \
+#      --with-linker-hash-style=gnu \
+#      --with-system-zlib \
+#      --enable-__cxa_atexit \
+#      --enable-checking=release \
+#      --enable-clocale=gnu \
+#      --enable-default-pie \
+#      --enable-default-ssp \
+#      --enable-gnu-indirect-function \
+#      --enable-gnu-unique-object \
+#      --enable-install-libiberty \
+#      --enable-linker-build-id \
+#      --disable-lto \
+#      --disable-plugin \
+#      --disable-shared \
+#      --disable-threads \
+#      --disable-libssp \
+#      --disable-libstdcxx-pch \
+#      --disable-libunwind-exceptions \
+#      --disable-multilib \
+#      --disable-werror \
+#      --target=${TARGET} \
+#      --host=${HOST} \
+#      --build=${BUILD} \
+#      --with-arch=armv6 \
+#      --with-float=hard \
+#      --with-fpu=vfp
+#
+  "${_gcc_work}/build
+  make
   
 }
 
@@ -107,5 +129,5 @@ function post_build () {
 
 pre_build
 config_build
-post_build
+# post_build
 
