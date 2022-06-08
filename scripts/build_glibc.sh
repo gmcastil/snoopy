@@ -1,13 +1,12 @@
 #!/bin/bash
 
-SNOOPY=${HOME}/git-repos/snoopy
-TARGET=arm-snoopy-linux-gnueabihf
-
-HOST=${SNOOPY}/host
-SYSROOT=${SNOOPY}/sysroot
-ROOTFS=${SNOOPY}/rootfs
-
-PATH=${SNOOPY}/host/bin:${SNOOPY}/${TARGET}/bin:${PATH}
+# Require paths and such before proceeding
+if [[ -f common.sh ]]; then
+  source common.sh
+else
+  printf '%s\n' 'Could not find common.sh' >&2
+  exit 1
+fi
 
 # case $(uname -m) in
 #     i?86)   ln -sfv ld-linux.so.2 ${HOST}/lib/ld-lsb.so.3
@@ -19,20 +18,15 @@ PATH=${SNOOPY}/host/bin:${SNOOPY}/${TARGET}/bin:${PATH}
 
 echo "rootsbindir=/usr/sbin" > configparms
 
-mkdir -pv build
-cd build
-
-_logfile=configure_$(date +%H%M%S-%d%m%y).log
-
-../configure                                   \
-      --prefix=${SNOOPY}/rootfs                \
-      --build=$(../scripts/config.guess)       \
-      --host=${TARGET}                         \
-      --enable-kernel=3.2                      \
-      --with-headers=${SYSROOT}/usr/include    \
-      libc_cv_slibdir=/usr/lib | tee ${_logfile}
-
-make 2>&1 | tee -a ${_logfile}
-
-make DESTDIR=${ROOTFS} install 2>&1 | tee -a ${_logfile}
-
+function pre_build () {
+	if [[ -d "${_glibc_work}" ]]; then
+		backup_if_present "${_glibc_work}"
+	fi
+	if [[ -f "${_glibc_src}" ]]; then
+		info_msg "Unpacking source file at ${_glibc_src}"
+		tar -xf "${_glibc_src}" -C "$(dirname "${_glibc_work}")"
+	else
+		err_msg "Could not find source file at ${_glibc_src}"
+		exit 1
+	fi
+}
