@@ -91,17 +91,23 @@ function config_build () {
     --disable-libvtv \
     --disable-libstdcxx \
     --enable-languages=c,c++ > configure_"$(timestamp)".log 2>&1
+
+  local build_timestamp_log
+  build_timestamp_log="build_$(timestamp).log"
+  make > "${build_timestamp_log}" 2>&1
 }
 
 function post_build () {
   local install_timestamp_log
   install_timestamp_log="install_$(timestamp).log"
   make install > "${install_timestamp_log}" 2>&1
-  # Don't need documentation for this
-  rm -rf "${TOOLCHAIN}/share"
+  cd ..
+  cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
+    "$(dirname "$(${TOOLCHAIN}/bin/${TARGET}-gcc \
+      -print-libgcc-file-name)")"/install-tools/include/limits.h
 }
 
 pre_build
 config_build
-# post_build
+post_build
 
