@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Require paths and such before proceeding
-if [[ -f common.sh ]]; then
-  source common.sh
-else
-  printf '%s\n' 'Could not find common.sh' >&2
-  exit 1
-fi
+# if [[ -f common.sh ]]; then
+#   source common.sh
+# else
+#   printf '%s\n' 'Could not find common.sh' >&2
+#   exit 1
+# fi
 
 glibc_version=2.35
 glibc_src="${SOURCES}/glibc-${glibc_version}.tar.xz"
